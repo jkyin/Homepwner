@@ -39,7 +39,13 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UITableViewCell"];
+    // 先检查是否有可以重用的 UITableViewCell 对象，有就使用之
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell"];
+    
+    // 针对某种类型，如果没有可以重用的 UITableViewCell 对象，就创建新的
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UITableViewCell"];
+    }
     
     // 获取 allItems 的第 n 个 BNRItem 实例，然后将该 BNRItem 实例的描述信息赋给 UITableViewCell 对象的 textLabel
     // 这里的 n 是该 UITableViewCell 对象所对应的表格行索引
