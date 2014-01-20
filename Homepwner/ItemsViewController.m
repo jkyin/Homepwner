@@ -20,9 +20,7 @@
     self = [super initWithStyle:UITableViewStyleGrouped];
     
     if (self) {
-        for (int i = 0; i < 5; i++) {
-            [[BNRItemStore sharedStore] createItem];
-        }
+        
     }
     return self;
 }
@@ -55,5 +53,64 @@
     
     return cell;
 }
+
+- (UIView *)tableView:(UITableView *)tv viewForHeaderInSection:(NSInteger)sec
+{
+    return [self headerView];
+}
+
+- (CGFloat)tableView:(UITableView *)tv heightForHeaderInSection:(NSInteger)sec
+{
+    // 根据 XIB 文件中的顶层 UIView 对象的高度，返回 headerView 的高度
+    return [[self headerView] bounds].size.height;
+}
+
+- (UIView *)headerView
+{
+    if (!headerView) {
+        [[NSBundle mainBundle] loadNibNamed:@"HeaderView" owner:self options:Nil];
+    }
+    return headerView;
+}
+
+- (IBAction)toggleEditingMode:(id)sender
+{
+    // 如果当前的视图控制器对象已经处在编辑模式...
+    if ([self isEditing]) {
+        // 修改按钮文字，提示用户当前的表格状态
+        [sender setTitle:@"编辑" forState:UIControlStateNormal];
+        // 关闭编辑模式
+        [self setEditing:NO animated:YES];
+    }else {
+        [sender setTitle:@"完成" forState:UIControlStateNormal];
+        [self setEditing:YES animated:YES];
+    }
+}
+
+- (IBAction)addNewItem:(id)sender
+{
+    // 创建新的 BNRItem 实例，然后将新创建的实例加入 BNRItemStore 实例
+    BNRItem *newItem = [[BNRItemStore sharedStore] createItem];
+    // 获取新创建的实例在 allItems 数组中的索引
+    int lastRow = [[[BNRItemStore sharedStore] allItems] indexOfObject:newItem];
+    // 创建 NSIndexPath 对象，代表的位置是：第一个表格段，最后一个表格行
+    NSIndexPath *ip = [NSIndexPath indexPathForRow:lastRow inSection:0];
+    
+    // 将新行插入 UITableview 对象
+    [[self tableView] insertRowsAtIndexPaths:[NSArray arrayWithObjects:ip, nil] withRowAnimation:UITableViewRowAnimationTop];
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @end
