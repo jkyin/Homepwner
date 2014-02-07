@@ -15,10 +15,10 @@
 + (id)randomItem
 {
     // 创建数组对象，包括三个形容词
-    NSArray *randomAdjectiveList = [NSArray arrayWithObjects:@"Fluffy", @"Rusty", @"Shiny", nil];
+    NSArray *randomAdjectiveList = [NSArray arrayWithObjects:@"毛茸茸的", @"生锈的", @"光亮的", nil];
     
     // 创建数组对象，包括三个名词
-    NSArray *randomNounList = [NSArray arrayWithObjects:@"Bear", @"Spork", @"Mac", nil];
+    NSArray *randomNounList = [NSArray arrayWithObjects:@"熊", @"餐叉", @"电脑", nil];
     
     // 根据数组对象所含对象的个数，得到随机索引
     // 注意：运算符 % 是模运算符，运算后得到余数
@@ -65,12 +65,12 @@
 
 - (id)init
 {
-    return [self initWithItemName:@"item" valueInDollars:0 serialNumber:@""];
+    return [self initWithItemName:@"名称:" valueInDollars:0 serialNumber:@""];
 }
 
 - (NSString *)description
 {
-    NSString *descriptionString = [[NSString alloc] initWithFormat:@"%@ (%@): Worth $%d, record on %@", itemName, serialNumber, valueInDollars, dateCreated];
+    NSString *descriptionString = [[NSString alloc] initWithFormat:@"%@ (%@): 价值 $%d, 记录日期为: %@", itemName, serialNumber, valueInDollars, dateCreated];
     return descriptionString;
 }
 
@@ -87,7 +87,7 @@
 
 - (void)dealloc
 {
-    NSLog(@"Destroyed: %@", self);
+    NSLog(@"释放指针: %@", self);
 }
 
 @end

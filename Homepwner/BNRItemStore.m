@@ -35,6 +35,24 @@
     return self;
 }
 
+#pragma mark - 实例方法
+
+- (void)moveItemAtIndex:(int)from toIndex:(int)to
+{
+    if (from == to) {
+        return;
+    }
+    
+    // 得到要移动的对象的指针，以便稍后能将其插入新的位置
+    BNRItem *p = [allItems objectAtIndex:from];
+    
+    // 将 p 从 allItems 数组中移除
+    [allItems removeObjectAtIndex:from];
+    
+    // 根据新的索引位置，将 p 插回 allItems 数组
+    [allItems insertObject:p atIndex:to];
+}
+
 - (NSArray *)allItems
 {
     return allItems;
@@ -46,6 +64,11 @@
     [allItems addObject:p];
     
     return p;
+}
+
+- (void)removeItem:(BNRItem *)p
+{
+    [allItems removeObjectIdenticalTo:p];
 }
 
 @end
