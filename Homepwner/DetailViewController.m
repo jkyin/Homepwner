@@ -62,5 +62,10 @@
     [item setValueInDollars:[[valueField text] intValue]];
 }
 
+// 这段代码能够在用户触摸背景区的时候使数字键盘消息
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [valueField resignFirstResponder];
+}
 
 @end
