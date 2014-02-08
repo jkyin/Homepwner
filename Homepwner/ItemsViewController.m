@@ -9,6 +9,7 @@
 #import "ItemsViewController.h"
 #import "BNRItem.h"
 #import "BNRItemStore.h"
+#import "DetailViewController.h"
 
 @implementation ItemsViewController
 {
@@ -31,6 +32,18 @@
 }
 
 #pragma mark - 协议
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    DetailViewController *detailViewController = [[DetailViewController alloc] init];
+    
+    NSArray *item = [[BNRItemStore sharedStore] allItems];
+    BNRItem *selectedItem = [item objectAtIndex:[indexPath row]];
+    
+    // 将选中国年的 BNRItem 实例赋给 DetailViewController 对象
+    [detailViewController setItem:selectedItem];
+    [[self navigationController] pushViewController:detailViewController animated:YES];
+}
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
 {
