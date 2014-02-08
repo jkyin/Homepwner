@@ -7,6 +7,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DetailViewController">
             <connections>
                 <outlet property="dateLabel" destination="aHn-jo-Vn9" id="6pR-YJ-VeA"/>
+                <outlet property="imageView" destination="ZQc-Rw-NNt" id="mSN-6W-3Ht"/>
                 <outlet property="nameField" destination="Fso-25-6o5" id="KO7-Ki-b8c"/>
                 <outlet property="serialNumberField" destination="ZxA-0u-Aa5" id="3Np-nS-d6r"/>
                 <outlet property="valueField" destination="8ys-4t-VsA" id="dGq-cB-5x5"/>
@@ -73,6 +74,21 @@
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZQc-Rw-NNt">
+                    <rect key="frame" x="20" y="243" width="280" height="247"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aUY-l9-8Fk">
+                    <rect key="frame" x="0.0" y="524" width="320" height="44"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <items>
+                        <barButtonItem systemItem="camera" id="hez-hv-CYd">
+                            <connections>
+                                <action selector="takePicture:" destination="-1" id="gEp-PW-Sod"/>
+                            </connections>
+                        </barButtonItem>
+                    </items>
+                </toolbar>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>

@@ -68,4 +68,47 @@
     [valueField resignFirstResponder];
 }
 
+- (IBAction)takePicture:(id)sender
+{
+    UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+    
+    // 如果设备支持相机，就使用拍照模式
+    // 否则让用户从相片库选择相片
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        [imagePicker setSourceType:UIImagePickerControllerSourceTypeCamera];
+    }else {
+        [imagePicker setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
+    }
+    [imagePicker setDelegate:self];
+    
+    // 显示 UIImagePickerController 对象的视图
+    [self presentViewController:imagePicker animated:YES completion:nil];
+}
+
+#pragma mark - delegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    // 通过 info 对象得到用户选取的图片
+    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    
+    // 将图片附给 UIImageView 对象并显示出来
+    [imageView setImage:image];
+    
+    // 要关闭 UIImagePickerController 对象，必需调用 dismissViewControllerAnimated:completion: 方法
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+
 @end
+
+
+
+
+
+
+
+
+
+
