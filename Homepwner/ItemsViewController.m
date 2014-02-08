@@ -12,15 +12,27 @@
 #import "DetailViewController.h"
 
 @implementation ItemsViewController
-{
-    
-}
+
+#pragma mark - lifecycle
 
 - (id)init
 {
     self = [super initWithStyle:UITableViewStyleGrouped];
     
     if (self) {
+        UINavigationItem *n = [self navigationItem];
+        
+        [n setTitle:@"Homepwner"];
+        
+        // 创建新的 UIBarButtonItem 对象
+        // 将其目标对象设置为当前对象，将其动作方法设置为 addNewItem:
+        UIBarButtonItem *bbi = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewItem:)];
+        
+        // 为 UINavigationItem 对象的 rightBarButtonItem 属性复制，
+        // 指向新创建的 UIBarButtonItem 对象
+        [[self navigationItem] setRightBarButtonItem:bbi];
+        
+        [[self navigationItem] setLeftBarButtonItem:[self editButtonItem]];
         
     }
     return self;
@@ -29,6 +41,12 @@
 - (id)initWithStyle:(UITableViewStyle)style
 {
     return [self init];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [[self tableView] reloadData];
 }
 
 #pragma mark - 协议
@@ -74,17 +92,6 @@
     return cell;
 }
 
-- (UIView *)tableView:(UITableView *)tv viewForHeaderInSection:(NSInteger)sec
-{
-    return [self headerView];
-}
-
-- (CGFloat)tableView:(UITableView *)tv heightForHeaderInSection:(NSInteger)sec
-{
-    // 根据 XIB 文件中的顶层 UIView 对象的高度，返回 headerView 的高度
-    return [[self headerView] bounds].size.height;
-}
-
 -(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
     return @"移除";
 }
@@ -100,29 +107,6 @@
         NSLog(@"\n 删除了: %@", p);
         // 还要删除表格视图中的相应表格行（带动画效果）
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationFade];
-    }
-}
-
-
-- (UIView *)headerView
-{
-    if (!headerView) {
-        [[NSBundle mainBundle] loadNibNamed:@"HeaderView" owner:self options:Nil];
-    }
-    return headerView;
-}
-
-- (IBAction)toggleEditingMode:(id)sender
-{
-    // 如果当前的视图控制器对象已经处在编辑模式...
-    if ([self isEditing]) {
-        // 修改按钮文字，提示用户当前的表格状态
-        [sender setTitle:@"编辑" forState:UIControlStateNormal];
-        // 关闭编辑模式
-        [self setEditing:NO animated:YES];
-    }else {
-        [sender setTitle:@"完成" forState:UIControlStateNormal];
-        [self setEditing:YES animated:YES];
     }
 }
 
