@@ -71,4 +71,30 @@
     [allItems removeObjectIdenticalTo:p];
 }
 
+- (NSString *)itemArchivePath
+{
+    NSArray *documentDirectories = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    
+    // 从 documentDirectories 数组获取文档目录路径（documentDirectories 只包含一个对象）
+    NSString *documentDirectory = [documentDirectories objectAtIndex:0];
+    
+    return [documentDirectory stringByAppendingPathComponent:@"items.archive"];
+}
+
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
