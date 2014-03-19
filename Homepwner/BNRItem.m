@@ -86,7 +86,7 @@
     [i setContainer:self];
 }
 
-#pragma mark - NSCoder
+#pragma mark - NSCoding
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {

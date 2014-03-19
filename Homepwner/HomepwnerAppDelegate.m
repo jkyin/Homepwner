@@ -8,6 +8,7 @@
 
 #import "HomepwnerAppDelegate.h"
 #import "ItemsViewController.h"
+#import "BNRItemStore.h"
 
 @implementation HomepwnerAppDelegate
 
@@ -34,8 +35,13 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    BOOL success = [[BNRItemStore sharedStore] saveChanges];
+    
+    if (success) {
+        NSLog(@"已保存所有 BNRItems 实例");
+    } else {
+        NSLog(@"没有保存任何 BNRItems 实例");
+    }
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application

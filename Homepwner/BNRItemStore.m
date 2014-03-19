@@ -30,7 +30,13 @@
 {
     self = [super init];
     if (self) {
-        allItems = [[NSMutableArray alloc] init];
+        NSString *path = [self itemArchivePath];
+        allItems = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+        
+        // 如果之前没有保存过 allItems 就创建一个新的
+        if (!allItems) {
+            allItems = [[NSMutableArray alloc] init];
+        }
     }
     return self;
 }
@@ -60,7 +66,7 @@
 
 - (BNRItem *)createItem
 {
-    BNRItem *p = [BNRItem randomItem];
+    BNRItem *p = [[BNRItem alloc] init];
     [allItems addObject:p];
     
     return p;
@@ -79,6 +85,13 @@
     NSString *documentDirectory = [documentDirectories objectAtIndex:0];
     
     return [documentDirectory stringByAppendingPathComponent:@"items.archive"];
+}
+
+- (BOOL)saveChanges
+{
+    NSString *path = [self itemArchivePath];
+    
+    return [NSKeyedArchiver archiveRootObject:allItems toFile:path];
 }
 
 @end
