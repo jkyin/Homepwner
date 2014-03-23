@@ -23,6 +23,8 @@
 		2D10D3AA188BEF60003DA6B2 /* BNRItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D10D3A9188BEF60003DA6B2 /* BNRItem.m */; };
 		2D10D3AD188BF191003DA6B2 /* BNRItemStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D10D3AC188BF191003DA6B2 /* BNRItemStore.m */; };
 		2D54E36B18A66CA500BC1AA3 /* BNRImageStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D54E36A18A66CA500BC1AA3 /* BNRImageStore.m */; };
+		2D8F19E018DEB2F6007501FA /* HomepwnerItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D8F19DF18DEB2F6007501FA /* HomepwnerItemCell.m */; };
+		2D8F19E718DEBF03007501FA /* HomepwnerItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D8F19E618DEBF03007501FA /* HomepwnerItemCell.xib */; };
 		2DDF3BAD18A4FA23003F350A /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DDF3BAB18A4FA23003F350A /* DetailViewController.m */; };
 		2DDF3BAE18A4FA23003F350A /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2DDF3BAC18A4FA23003F350A /* DetailViewController.xib */; };
 /* End PBXBuildFile section */
@@ -62,6 +64,9 @@
 		2D10D3AC188BF191003DA6B2 /* BNRItemStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BNRItemStore.m; sourceTree = "<group>"; };
 		2D54E36918A66CA500BC1AA3 /* BNRImageStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BNRImageStore.h; sourceTree = "<group>"; };
 		2D54E36A18A66CA500BC1AA3 /* BNRImageStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BNRImageStore.m; sourceTree = "<group>"; };
+		2D8F19DE18DEB2F6007501FA /* HomepwnerItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomepwnerItemCell.h; sourceTree = "<group>"; };
+		2D8F19DF18DEB2F6007501FA /* HomepwnerItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomepwnerItemCell.m; sourceTree = "<group>"; };
+		2D8F19E618DEBF03007501FA /* HomepwnerItemCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomepwnerItemCell.xib; sourceTree = "<group>"; };
 		2DDF3BAA18A4FA23003F350A /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		2DDF3BAB18A4FA23003F350A /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		2DDF3BAC18A4FA23003F350A /* DetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailViewController.xib; sourceTree = "<group>"; };
@@ -126,17 +131,11 @@
 			children = (
 				2D10D385188BEBB0003DA6B2 /* HomepwnerAppDelegate.h */,
 				2D10D386188BEBB0003DA6B2 /* HomepwnerAppDelegate.m */,
-				2DDF3BAA18A4FA23003F350A /* DetailViewController.h */,
-				2DDF3BAB18A4FA23003F350A /* DetailViewController.m */,
-				2DDF3BAC18A4FA23003F350A /* DetailViewController.xib */,
-				2D10D3A5188BECF3003DA6B2 /* ItemsViewController.h */,
-				2D10D3A6188BECF3003DA6B2 /* ItemsViewController.m */,
-				2D10D3A8188BEF60003DA6B2 /* BNRItem.h */,
-				2D10D3A9188BEF60003DA6B2 /* BNRItem.m */,
-				2D10D3AB188BF191003DA6B2 /* BNRItemStore.h */,
-				2D10D3AC188BF191003DA6B2 /* BNRItemStore.m */,
-				2D54E36918A66CA500BC1AA3 /* BNRImageStore.h */,
-				2D54E36A18A66CA500BC1AA3 /* BNRImageStore.m */,
+				2D8F19E118DEB301007501FA /* Model */,
+				2D8F19E218DEB307007501FA /* View */,
+				2D8F19E318DEB30D007501FA /* Controller */,
+				2D8F19E418DEB333007501FA /* Store */,
+				2D8F19E518DEB366007501FA /* Xib */,
 				2D10D388188BEBB0003DA6B2 /* Images.xcassets */,
 				2D10D37D188BEBB0003DA6B2 /* Supporting Files */,
 			);
@@ -170,6 +169,55 @@
 				2D10D398188BEBB0003DA6B2 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		2D8F19E118DEB301007501FA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2D10D3A8188BEF60003DA6B2 /* BNRItem.h */,
+				2D10D3A9188BEF60003DA6B2 /* BNRItem.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		2D8F19E218DEB307007501FA /* View */ = {
+			isa = PBXGroup;
+			children = (
+				2D8F19DE18DEB2F6007501FA /* HomepwnerItemCell.h */,
+				2D8F19DF18DEB2F6007501FA /* HomepwnerItemCell.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		2D8F19E318DEB30D007501FA /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				2DDF3BAA18A4FA23003F350A /* DetailViewController.h */,
+				2DDF3BAB18A4FA23003F350A /* DetailViewController.m */,
+				2D10D3A5188BECF3003DA6B2 /* ItemsViewController.h */,
+				2D10D3A6188BECF3003DA6B2 /* ItemsViewController.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		2D8F19E418DEB333007501FA /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				2D10D3AB188BF191003DA6B2 /* BNRItemStore.h */,
+				2D10D3AC188BF191003DA6B2 /* BNRItemStore.m */,
+				2D54E36918A66CA500BC1AA3 /* BNRImageStore.h */,
+				2D54E36A18A66CA500BC1AA3 /* BNRImageStore.m */,
+			);
+			name = Store;
+			sourceTree = "<group>";
+		};
+		2D8F19E518DEB366007501FA /* Xib */ = {
+			isa = PBXGroup;
+			children = (
+				2DDF3BAC18A4FA23003F350A /* DetailViewController.xib */,
+				2D8F19E618DEBF03007501FA /* HomepwnerItemCell.xib */,
+			);
+			name = Xib;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -250,6 +298,7 @@
 			files = (
 				2D10D381188BEBB0003DA6B2 /* InfoPlist.strings in Resources */,
 				2D10D389188BEBB0003DA6B2 /* Images.xcassets in Resources */,
+				2D8F19E718DEBF03007501FA /* HomepwnerItemCell.xib in Resources */,
 				2DDF3BAE18A4FA23003F350A /* DetailViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -271,6 +320,7 @@
 			files = (
 				2D10D3AD188BF191003DA6B2 /* BNRItemStore.m in Sources */,
 				2D10D3A7188BECF3003DA6B2 /* ItemsViewController.m in Sources */,
+				2D8F19E018DEB2F6007501FA /* HomepwnerItemCell.m in Sources */,
 				2D54E36B18A66CA500BC1AA3 /* BNRImageStore.m in Sources */,
 				2D10D3AA188BEF60003DA6B2 /* BNRItem.m in Sources */,
 				2D10D387188BEBB0003DA6B2 /* HomepwnerAppDelegate.m in Sources */,
@@ -397,7 +447,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Homepwner/Homepwner-Prefix.pch";
 				INFOPLIST_FILE = "Homepwner/Homepwner-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -410,7 +462,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Homepwner/Homepwner-Prefix.pch";
 				INFOPLIST_FILE = "Homepwner/Homepwner-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

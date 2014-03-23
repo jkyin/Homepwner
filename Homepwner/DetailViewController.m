@@ -13,7 +13,6 @@
 @interface DetailViewController ()
 
 @end
-
 @implementation DetailViewController
 
 @synthesize item;
