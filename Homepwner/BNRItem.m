@@ -12,6 +12,60 @@
 @synthesize itemName;
 @synthesize imageKey;
 @synthesize containedItem, container, serialNumber, valueInDollars,dateCreated;
+@synthesize thumbnail,thumbnailData;
+
+- (UIImage *)thumbnail
+{
+    // 如果 thumbnailData 为 nil，表示没有缩略图
+    if (!thumbnailData) {
+        return nil;
+    }
+    if (!thumbnail) {
+        thumbnail = [UIImage imageWithData:thumbnailData];
+    }
+    return thumbnail;
+}
+
+- (void)setThumbnailDataFromImage:(UIImage *)image
+{
+    CGSize origImageSize = [image size];
+    
+    // 缩略图的大小
+    CGRect newRect = CGRectMake(0, 0, 40, 40);
+    
+    // 确定缩放倍数并保持宽高比不变
+    float ratio = MAX(newRect.size.width / origImageSize.width, newRect.size.height / origImageSize.height);
+    
+    // 根据当前设备的屏幕 scaling factor，创建透明的位图上下文
+    UIGraphicsBeginImageContextWithOptions(newRect.size, NO, 0.0);
+    
+    // 创建代表圆角矩形的 UIBezierPath 对象
+    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:newRect cornerRadius:5.0];
+    
+    // 根据 UIBezierPath 对象裁剪绘图区域
+    [path addClip];
+    
+    // 计算图片的居中显示位置
+    CGRect projectRect;
+    projectRect.size.width = ratio * origImageSize.width;
+    projectRect.size.height = ratio * origImageSize.height;
+    projectRect.origin.x = (newRect.size.width - projectRect.size.width) / 2.0;
+    projectRect.origin.y = (newRect.size.height - projectRect.size.height) / 2.0;
+    
+    // 从上下文中绘制图片
+    [image drawInRect:projectRect];
+    
+    // 通过图片上下文得到 UIImage 对象，并将其赋给 thumbnail 属性
+    UIImage *smallImage = UIGraphicsGetImageFromCurrentImageContext();
+    [self setThumbnail:smallImage];
+    
+    // 从 UIImage 随心提取 PNG 格式的数据，并将得到的 NSData 对象赋给 thumbnailData 属性
+    NSData *data = UIImagePNGRepresentation(smallImage);
+    [self setThumbnailData:data];
+    
+    // 清理上下文
+    UIGraphicsEndImageContext();
+}
 
 + (id)randomItem
 {
@@ -45,6 +99,8 @@
     
     return newItem;
 }
+
+#pragma mark - lifecycle
 
 - (id)initWithItemName:(NSString *)name valueInDollars:(int)value serialNumber:(NSString *)sNumber
 {
@@ -96,6 +152,8 @@
     [aCoder encodeObject:imageKey forKey:@"imageKey"];
     
     [aCoder encodeInt:valueInDollars forKey:@"valueInDollars"];
+    
+    [aCoder encodeObject:thumbnailData forKey:@"thumnailData"];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -109,6 +167,8 @@
         [self setValueInDollars:[aDecoder decodeIntForKey:@"valueInDollars"]];
         
         dateCreated = [aDecoder decodeObjectForKey:@"dateCreated"];
+        
+        thumbnailData = [aDecoder decodeObjectForKey:@"thumnailData"];
     }
     return self;
 }

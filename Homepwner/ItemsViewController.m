@@ -93,6 +93,8 @@
     [[cell serialNumberLabel] setText:[p serialNumber]];
     [[cell valueLabel] setText:[NSString stringWithFormat:@"%d", [p valueInDollars]]];
     
+    [[cell thumbnailView] setImage:[p thumbnail]];
+    
     return cell;
 }
 

@@ -11,11 +11,8 @@
 @interface BNRItem : NSObject <NSCoding>
 
 + (id)randomItem;
-
 - (id)initWithItemName:(NSString *)name valueInDollars:(int)value serialNumber:(NSString *)sNumber;
-
 - (id)initWithitemName:(NSString *)name serialNumber:(NSString *)sNumber;
-
 - (void)dealloc;
 
 @property (nonatomic, strong) BNRItem *containedItem;
@@ -28,4 +25,8 @@
 
 @property (nonatomic, copy) NSString *imageKey;
 
+@property (nonatomic, strong) UIImage *thumbnail;
+@property (nonatomic, strong) NSData *thumbnailData;
+
+- (void)setThumbnailDataFromImage:(UIImage *)image;
 @end

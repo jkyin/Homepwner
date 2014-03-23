@@ -118,6 +118,8 @@
     // 通过 info 对象得到用户选取的图片
     UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
     
+    [item setThumbnailDataFromImage:image];
+    
     // 创建一个 CFUUID，CFUUIDCreate 函数知道如何创建无重复的字符串
     CFUUIDRef newUniqueID = CFUUIDCreate(kCFAllocatorDefault);
     
