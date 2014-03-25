@@ -89,6 +89,9 @@
     
     HomepwnerItemCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HomepwnerItemCell"];
     
+    [cell setController:self];
+    [cell setTableView:tableView];
+    
     [[cell nameLabel] setText:[p itemName]];
     [[cell serialNumberLabel] setText:[p serialNumber]];
     [[cell valueLabel] setText:[NSString stringWithFormat:@"%d", [p valueInDollars]]];
@@ -116,6 +119,8 @@
     }
 }
 
+#pragma mark - selector
+
 - (IBAction)addNewItem:(id)sender
 {
     // 创建新的 BNRItem 实例，然后将新创建的实例加入 BNRItemStore 实例
@@ -131,6 +136,10 @@
     [[self tableView] insertRowsAtIndexPaths:[NSArray arrayWithObjects:ip, nil] withRowAnimation:UITableViewRowAnimationTop];
 }
 
+- (void)showImage:(id)sender atIndexPath:(NSIndexPath *)ip
+{
+    NSLog(@"显示 %@ 位置的图片", ip);
+}
 
 
 
