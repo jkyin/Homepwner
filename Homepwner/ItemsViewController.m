@@ -11,6 +11,8 @@
 #import "BNRItemStore.h"
 #import "DetailViewController.h"
 #import "HomepwnerItemCell.h"
+#import "BNRImageStore.h"
+#import "ImageViewController.h"
 
 @implementation ItemsViewController
 
@@ -59,7 +61,7 @@
     [[self tableView] registerNib:nib forCellReuseIdentifier:@"HomepwnerItemCell"];
 }
 
-#pragma mark - 协议
+#pragma mark - UITableView
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -119,6 +121,14 @@
     }
 }
 
+#pragma mark - UIPopoverControllerDelegate
+
+- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
+{
+    [imagePopover dismissPopoverAnimated:YES];
+    imagePopover = nil;
+}
+
 #pragma mark - selector
 
 - (IBAction)addNewItem:(id)sender
@@ -139,6 +149,32 @@
 - (void)showImage:(id)sender atIndexPath:(NSIndexPath *)ip
 {
     NSLog(@"显示 %@ 位置的图片", ip);
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        // 根据 NSIndexPath 对象获取 BNRItem 实例
+        BNRItem *i = [[[BNRItemStore sharedStore] allItems] objectAtIndex:[ip row]];
+        
+        NSString *imageKey = [i imageKey];
+        
+        // 如果 BRNItem 实例没有图片，就直接返回
+        UIImage *img = [[BNRImageStore sharedStore] imageForKey:imageKey];
+        if (!img) {
+            return;
+        }
+        
+        // 根据 UITableView 对象的坐标系，获取 UIButton 对象的位置和大小
+        CGRect rect = [[self view] convertRect:[sender bounds] fromView:sender];
+        
+        // 创建 ImageViewController 对象并为 image 属性赋值
+        ImageViewController *ivc = [[ImageViewController alloc] init];
+        [ivc setImage:img];
+        
+        // 根据之前得到的按钮位置和大小，显示一个大小为 600*600 点的 UIPopoverController 对象
+        imagePopover = [[UIPopoverController alloc] initWithContentViewController:ivc];
+        [imagePopover setDelegate:self];
+        [imagePopover setPopoverContentSize:CGSizeMake(600, 600)];
+        [imagePopover presentPopoverFromRect:rect inView:[self view] permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    }
 }
 
 
