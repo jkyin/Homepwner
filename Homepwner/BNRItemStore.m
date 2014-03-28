@@ -31,13 +31,29 @@
 {
     self = [super init];
     if (self) {
-        NSString *path = [self itemArchivePath];
-        allItems = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+        // 读取 Homepwner.xcdatamodeld
+        model = [NSManagedObjectModel mergedModelFromBundles:nil];
         
-        // 如果之前没有保存过 allItems 就创建一个新的
-        if (!allItems) {
-            allItems = [[NSMutableArray alloc] init];
+        NSPersistentStoreCoordinator *psc = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
+        
+        // 设置 SQLite 文件路径
+        NSString *path = [self itemArchivePath];
+        NSURL *storeURL = [NSURL fileURLWithPath:path];
+        
+        NSError *error = nil;
+        
+        if (![psc addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error]) {
+            [NSException raise:@"Open failed" format:@"Reason: %@", [error localizedDescription]];
         }
+        // 创建 NSManagedObjectContext 对象
+        context = [[NSManagedObjectContext alloc] init];
+        [context setPersistentStoreCoordinator:psc];
+        
+        // NSManagedObjectContext 对象可以管理撤销（undo）操作，而 Homepwner 不需要该功能
+        [context setUndoManager:nil];
+        
+        [self loadAllItems];
+        
     }
     return self;
 }
@@ -58,6 +74,30 @@
     
     // 根据新的索引位置，将 p 插回 allItems 数组
     [allItems insertObject:p atIndex:to];
+    
+    // 为移动的 BNRItem 实现计算新的 orderValue
+    double lowerBound = 0.0;
+    
+    // 在数组中，该对象之前是否有其他对象？
+    if (to > 0) {
+        lowerBound = [[allItems objectAtIndex:to - 1] orderingValue];
+    } else {
+        lowerBound = [[allItems objectAtIndex:1] orderingValue] - 2.0;
+    }
+    
+    double upperBound = 0.0;
+    
+    // 在数组中，该对象之后是否有其他对象
+    if (to < [allItems count] - 1) {
+        upperBound = [[allItems objectAtIndex:to + 1] orderingValue];
+    } else {
+        upperBound = [[allItems objectAtIndex:to - 1] orderingValue] + 2.0;
+    }
+    
+    double newOrderValue = (lowerBound + upperBound) / 2.0;
+    
+    NSLog(@"moving to order %f", newOrderValue);
+    [p setOrderingValue:newOrderValue];
 }
 
 - (NSArray *)allItems
@@ -67,7 +107,18 @@
 
 - (BNRItem *)createItem
 {
-    BNRItem *p = [[BNRItem alloc] init];
+    double order;
+    if ([allItems count]== 0) {
+        order = 1.0;
+    } else {
+        order = [[allItems lastObject] orderingValue] + 1.0;
+    }
+    NSLog(@"Adding after %d items, order %.2f", [allItems count], order);
+    
+    BNRItem *p = [NSEntityDescription insertNewObjectForEntityForName:@"BNRItem" inManagedObjectContext:context];
+    
+    [p setOrderingValue:order];
+    
     [allItems addObject:p];
     
     return p;
@@ -77,7 +128,7 @@
 {
     NSString *key = [p imageKey];
     [[BNRImageStore sharedStore] deleteImageForKey:key];
-    
+    [context deleteObject:p];
     [allItems removeObjectIdenticalTo:p];
 }
 
@@ -88,14 +139,37 @@
     // 从 documentDirectories 数组获取文档目录路径（documentDirectories 只包含一个对象）
     NSString *documentDirectory = [documentDirectories objectAtIndex:0];
     
-    return [documentDirectory stringByAppendingPathComponent:@"items.archive"];
+    return [documentDirectory stringByAppendingPathComponent:@"store.data"];
 }
 
 - (BOOL)saveChanges
 {
-    NSString *path = [self itemArchivePath];
-    
-    return [NSKeyedArchiver archiveRootObject:allItems toFile:path];
+    NSError *err = nil;
+    BOOL successful = [context save:&err];
+    if (!successful) {
+        NSLog(@"Error saving: %@", [err localizedDescription]);
+    }
+    return successful;
+}
+
+- (void)loadAllItems
+{
+    if (!allItems) {
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        
+        NSEntityDescription *e = [[model entitiesByName] objectForKey:@"BNRItem"];
+        [request setEntity:e];
+        
+        NSSortDescriptor *sd = [NSSortDescriptor sortDescriptorWithKey:@"orderingValue" ascending:YES];
+        [request setSortDescriptors:[NSArray arrayWithObject:sd]];
+        
+        NSError *error;
+        NSArray *result = [context executeFetchRequest:request error:&error];
+        if (!result) {
+            [NSException raise:@"Fetch failed" format:@"Reason: &@", [error localizedDescription]];
+        }
+        allItems = [[NSMutableArray alloc] initWithArray:result];
+    }
 }
 
 @end

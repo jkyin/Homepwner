@@ -46,7 +46,9 @@
     [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
     
     // 将转换后得到的日期字符串设置为 dateLabel 的标题
-    [dateLabel setText:[dateFormatter stringFromDate:[item dateCreated]]];
+    // 根据 NSTimeInterval 类型的 dateCreated 属性，创建相应的 NSDate 对象
+    NSDate *date = [NSDate dateWithTimeIntervalSinceReferenceDate:[item dateCreated]];
+    [dateLabel setText:[dateFormatter stringFromDate:date]];
     
     NSString *imageKey = [item imageKey];
     
